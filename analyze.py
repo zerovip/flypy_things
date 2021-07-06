@@ -70,6 +70,10 @@ result = {}
 unique = 0  # 无重字的码
 non_unique = 0  # 有重字的码
 dist = {}   # 重码分布
+level_dist = {}     # 字的级数的分布
+                    #   里面的键值为“1”，表示无重字，且这个字是一级字的码数
+                    #   里面的键值为“11”，表示一码两字，且这两个字都是一级字的码数
+                    #   里面的键值为“12”，表示一码两字，且这两个字一个是一级字，一个是二级字的码数
 for key, value in dic.items():
     if len(value) == 1:
         unique = unique + 1
@@ -89,6 +93,13 @@ for key, value in dic.items():
             dist[len(value)].append(key + ': ' + ''.join(value))
         else:
             dist[len(value)] = [key + ': ' + ''.join(value)]
+    level_li = ''.join([i[2] for i in value])
+    if level_li in level_dist:
+        level_dist[level_li] += 1
+    else:
+        level_dist[level_li] = 1
+    if level_li in ["11", "111", "112", "113", "1112", "1113", "1123", "11122"]: # 一级字重复的几种需要特殊处理的情况
+        print('"' + key + '": "' + ''.join(value) + '",')
 
 check3_out = []     # 有重字的码的前三码的重复情况
 for k, v in check3.items():
@@ -116,3 +127,6 @@ result["其中三级字有"] = str(l3)
 with open ('result.json', 'w') as new_file:
     json.dump(result, new_file, ensure_ascii=False, indent=2)
 
+# with open ('distribution.json', 'w') as new_file:
+#     json.dump(dist, new_file, ensure_ascii=False, indent=2)
+print(level_dist)
