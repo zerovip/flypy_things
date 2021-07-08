@@ -128,5 +128,6 @@ with open ('result.json', 'w') as new_file:
     json.dump(result, new_file, ensure_ascii=False, indent=2)
 
 # with open ('distribution.json', 'w') as new_file:
-#     json.dump(dist, new_file, ensure_ascii=False, indent=2)
+    # json.dump(dic, new_file, ensure_ascii=False, indent=2)
+
 print(level_dist)
